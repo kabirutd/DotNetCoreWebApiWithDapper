@@ -1,0 +1,34 @@
+﻿
+@model IEnumerable<MK.DotNetCore.Dapper.ApplicationCore.Entities.Employees>
+
+<div style="padding:5px;">
+    <p>
+        <a asp-action="Create" asp-controller="Home" title="Create"><i class="fas fa-plus-circle fa-3x"></i></a><h5>Northwind Employees</h5>
+    </p>
+
+    <div class="card-columns">
+        @foreach (var item in Model)
+        {
+            <div class="card" style="width:300px">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        @($"{item.TitleOfCourtesy} {item.FirstName} {item.LastName}")
+                    </h4>
+                    <p class="card-text">@($"{item.Title}")</p>
+                    <p class="card-text">@($"{item.City}, {item.Country}")</p>
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@(item.EmployeeID)" class="btn btn-secondary"><i class="far fa-eye"></i></a>
+                    <a title="Edit" asp-controller="Home" asp-action="Edit" asp-route-id="@(item.EmployeeID)" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@*@{
+        ViewData["Title"] = "Home Page";
+    }
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>*@
