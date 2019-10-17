@@ -1,5 +1,10 @@
 ﻿
 @model IEnumerable<MK.DotNetCore.Dapper.ApplicationCore.Entities.Employees>
+<!------------------------JQUERY UI JS AND CSS FILES-------------------------------->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!------------------------ENDS JQUERY UI JS AND CSS FILES-------------------------------->
 
 <div style="padding:5px;">
     <p>
@@ -18,17 +23,34 @@
                     <p class="card-text">@($"{item.City}, {item.Country}")</p>
                     <a asp-controller="Home" asp-action="Details" asp-route-id="@(item.EmployeeID)" class="btn btn-secondary"><i class="far fa-eye"></i></a>
                     <a title="Edit" asp-controller="Home" asp-action="Edit" asp-route-id="@(item.EmployeeID)" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                    <button id="btnDelete" onclick="deleteEmployee(@item.EmployeeID)" class="btn btn-sm btn-danger">Delete</button>
                 </div>
             </div>
         }
     </div>
 </div>
 
-@*@{
-        ViewData["Title"] = "Home Page";
+<script>
+    function deleteEmployee(id) {
+        var result = confirm("Are you sure, you would like to delete employee with Id " + id + "?");
+        if (result) {
+
+            $.ajax({
+                type: 'DELETE',
+                url:'/api/employee/' + id,           
+                success:
+                    function (data, textStatus, xhr) {  
+                    alert('Id: ' + id + ' was deleted successfully!'); //callbackFactory(gTaskCounter, gDayCounter),
+
+                    },                    
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                    //alert('Error..');
+                    alert(xhr.responseText   + ' errorThrown:  ' + errorThrown.toString() );
+                }
+
+            });
+        }
     }
 
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    </div>*@
+</script>

@@ -84,6 +84,19 @@ namespace MK.DotNetCore.Dapper.Infrastructure.DataAccess.Implementation
             }
         }
 
+        public async Task<IReadOnlyList<Employees>> ListAllAsync(string filters)
+        {
+            //throw new NotImplementedException();
+            //var EmpList = new List<Employees>();
+            var SqlQuery = @"SELECT [EmployeeID],[LastName],[FirstName],[Title],[TitleOfCourtesy],[City],[Country] FROM [Northwind].[dbo].[Employees]";
+
+            using (IDbConnection conn = _connectionFactory.GetConnection)
+            {
+                var result = await conn.QueryAsync<Employees>(SqlQuery, commandTimeout: 1800);
+                return result.ToList();
+            }
+        }
+
         public Task<IReadOnlyList<Employees>> ListAsync(ISpecification<Employees> spec)
         {
             throw new NotImplementedException();

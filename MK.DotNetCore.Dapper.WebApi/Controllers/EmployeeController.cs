@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+//using System.Web.Http;
+//using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MK.DotNetCore.Dapper.ApplicationCore.Entities;
@@ -25,18 +26,13 @@ namespace MK.DotNetCore.Dapper.WebApi.Controllers
         }
         // GET: api/Employee
         [HttpGet]
-       //public IEnumerable<string> Get()
-
-       //public async Task<ActionResult<IReadOnlyList<Employees>>> Get()
         public async Task<IReadOnlyList<Employees>> Get()
         {
             return await _employeeRepository.ListAllAsync();
         }
     
         // GET: api/Employee/5
-        //[HttpGet("{id}", Name = "Get")]
         [HttpGet("{id}")]
-
         public async Task<Employees> Get(int id)
         {
             return await _employeeRepository.GetByIdAsync(id);
@@ -55,24 +51,27 @@ namespace MK.DotNetCore.Dapper.WebApi.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        //public void Delete(int id)
-         public async Task<bool> Delete(int id)
+        [HttpDelete("{id}")]      
+        public async Task<string> Delete(int id)
+        //public async Task<string> Delete([FromUri] int id, [FromBody] String name)            
         {
-            //var deleted = _employeeRepository.DeleteEmployee(id);
-
+            if (id <= 0)
+                return BadRequest("Not a valid student id").ToString();
             var deleted = await _employeeRepository.DeleteByIdAsync(id);
+            return "Id " + id + " was deleted successfully!";
 
-            return deleted;
-
-            //if (deleted)
-            //{
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //else
-            //{
-            //    return View();
-            //}
         }
+        //public async Task<bool> Delete(int id)
+        //{
+
+        //    if (id <= 0)
+        //        return false; // BadRequest("Not a valid student id");
+
+        //    var deleted = await _employeeRepository.DeleteByIdAsync(id);
+
+        //    return deleted;
+
+           
+        //}
     }
 }
